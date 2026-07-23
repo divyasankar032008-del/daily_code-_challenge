@@ -1,0 +1,63 @@
+1. 
+
+  import java.util.ArrayList;
+
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        // Compare every element
+        for (int i = 0; i < nums1.length; i++) {
+
+            for (int j = 0; j < nums2.length; j++) {
+
+                // If both elements are equal
+                if (nums1[i] == nums2[j]) {
+
+                    // Add only if it is not already in the list
+                    if (!list.contains(nums1[i])) {
+                        list.add(nums1[i]);
+                    }
+                }
+            }
+        }
+
+        // Convert ArrayList to int array
+        int[] result = new int[list.size()];
+
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+
+        return result;
+    }
+}
+
+
+2.
+
+  import java.util.Arrays;
+
+class Solution {
+    public int thirdMax(int[] nums) {
+
+        Arrays.sort(nums);
+
+        int count = 1;
+        int max = nums[nums.length - 1];
+
+        for (int i = nums.length - 2; i >= 0; i--) {
+
+            if (nums[i] != nums[i + 1]) {
+                count++;
+
+                if (count == 3) {
+                    return nums[i];
+                }
+            }
+        }
+
+        return max;
+    }
+}
