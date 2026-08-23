@@ -1,0 +1,23 @@
+class Solution {
+    public boolean hasAlternatingBits(int n) {
+
+        int previousBit = n & 1;
+
+        n = n >> 1;
+
+        while (n > 0) {
+
+            int currentBit = n & 1;
+
+            if (currentBit == previousBit) {
+                return false;
+            }
+
+            previousBit = currentBit;
+
+            n = n >> 1;
+        }
+
+        return true;
+    }
+}
