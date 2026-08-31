@@ -1,0 +1,48 @@
+class Solution {
+    public int mergeStones(int[] stones, int k) {
+
+        int n = stones.length;
+
+        // Check whether merging into one pile is possible
+        if ((n - 1) % (k - 1) != 0) {
+            return -1;
+        }
+
+        // Prefix sum
+        int[] prefix = new int[n + 1];
+
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + stones[i];
+        }
+
+        int[][] dp = new int[n][n];
+
+        for (int length = k; length <= n; length++) {
+
+            for (int left = 0; left + length <= n; left++) {
+
+                int right = left + length - 1;
+
+                dp[left][right] = Integer.MAX_VALUE;
+
+                for (int mid = left; mid < right; mid += k - 1) {
+
+                    dp[left][right] = Math.min(
+                        dp[left][right],
+                        dp[left][mid] + dp[mid + 1][right]
+                    );
+                }
+
+                // If we can merge this whole range into one pile
+                if ((length - 1) % (k - 1) == 0) {
+
+                    int sum = prefix[right + 1] - prefix[left];
+
+                    dp[left][right] += sum;
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+}
