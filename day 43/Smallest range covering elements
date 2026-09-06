@@ -1,0 +1,66 @@
+class Solution {
+
+    class Node {
+        int value;
+        int list;
+        int index;
+
+        Node(int value, int list, int index) {
+            this.value = value;
+            this.list = list;
+            this.index = index;
+        }
+    }
+
+    public int[] smallestRange(List<List<Integer>> nums) {
+
+        PriorityQueue<Node> pq =
+            new PriorityQueue<>((a, b) -> a.value - b.value);
+
+        int max = Integer.MIN_VALUE;
+
+        // First element from every list
+        for (int i = 0; i < nums.size(); i++) {
+
+            int value = nums.get(i).get(0);
+
+            pq.offer(new Node(value, i, 0));
+
+            max = Math.max(max, value);
+        }
+
+        int start = 0;
+        int end = Integer.MAX_VALUE;
+
+        while (pq.size() == nums.size()) {
+
+            Node minNode = pq.poll();
+
+            int min = minNode.value;
+
+            // Check whether current range is smaller
+            if (max - min < end - start) {
+                start = min;
+                end = max;
+            }
+
+            int nextIndex = minNode.index + 1;
+
+            // If this list has no more elements
+            if (nextIndex == nums.get(minNode.list).size()) {
+                break;
+            }
+
+            int nextValue =
+                nums.get(minNode.list).get(nextIndex);
+
+            pq.offer(
+                new Node(nextValue, minNode.list, nextIndex)
+            );
+
+            max = Math.max(max, nextValue);
+        }
+
+        return new int[]{start, end};
+    }
+}
