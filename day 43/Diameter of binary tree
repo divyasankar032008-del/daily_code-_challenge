@@ -1,0 +1,28 @@
+class Solution {
+
+    int diameter = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+
+        height(root);
+
+        return diameter;
+    }
+
+    public int height(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        int leftHeight = height(root.left);
+
+        int rightHeight = height(root.right);
+
+        int path = leftHeight + rightHeight;
+
+        diameter = Math.max(diameter, path);
+
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+}
